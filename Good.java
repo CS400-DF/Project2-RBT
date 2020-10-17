@@ -58,6 +58,10 @@ public class Good implements Comparable<Good>{
   public Integer getQuantity() {
     return this.quantity;
   }
+  
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
 
   /**
    * Good details are printed
