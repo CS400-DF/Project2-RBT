@@ -43,11 +43,11 @@ public class inventoryDriver {
       Scanner scanner) {
     String[] input = command.trim().split(" ");
     switch (input[0].toUpperCase()) {
-//      case "L": // load a Student text file into the application
-//        if (loadHelper(ia, scanner) == false) {
-//          return false;
-//        }
-//        break;
+      case "L": // load a Student text file into the application
+        if (loadHelper(ia, scanner) == false) {
+          return false;
+        }
+        break;
 
       case "U": // increase stock
         increaseStockHelper(ia, scanner);
@@ -225,27 +225,27 @@ public class inventoryDriver {
     
     return true;
   }
-//  private static boolean loadHelper(InventoryApp ia, Scanner scanner) {
-//    String fileName = null;
-//    System.out.print(
-//            "Please enter the name of the text file of Goods you would like to load into the application in the form <FileName>.txt : ");
-//    fileName = scanner.nextLine().trim();
-//
-//    // check if user has entered 'q' to quit
-//    if (checkIfQuit(fileName)) {
-//      return false;
-//    }
-//
-//    // Try to load file of Students into the system
-//    if (!(ia.load(fileName))) {
-//      System.out.println("File of students uncessessfully loaded into the application. Please hit [L] and try again.");
-//    }
-//    else {
-//      System.out.println("File of students successfully loaded into the application.");
-//    }
-//
-//    return true;
-//  }
+  private static boolean loadHelper(InventoryApp ia, Scanner scanner) {
+    String fileName = null;
+    System.out.print(
+            "Please enter the name of the text file of Goods you would like to load into the application in the form <FileName>.txt : ");
+    fileName = scanner.nextLine().trim();
+
+    // check if user has entered 'q' to quit
+    if (checkIfQuit(fileName)) {
+      return false;
+    }
+
+    // Try to load file of Students into the system
+    if (!(ia.load(fileName))) {
+      System.out.println("File of students uncessessfully loaded into the application. Please hit [L] and try again.");
+    }
+    else {
+      System.out.println("File of students successfully loaded into the application.");
+    }
+
+    return true;
+  }
   /**
    * Helps with the functionality of adding a Good to the application.
    *
