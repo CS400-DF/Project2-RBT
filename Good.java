@@ -1,28 +1,26 @@
 /**
- * @author zihan
- * @param <T>
- *
+ * This class represents a good object for the inventory app
+ * 
+ * @author Dana Schneck
  */
-public class Good implements Comparable<Good>{
+public class Good implements Comparable<Good> {
   private Integer barcode;
   private String name;
   private Double price;
   private Integer quantity;
-
+  
   /**
-   * constructor
+   * Default constructor
    */
-  public Good() {
-
-  }
-
+  public Good() {};
+  
   /**
-   * constructor
+   * Initializes a new Good object with its barcode, name, price, and quantity
    * 
-   * @param barcode
-   * @param name
-   * @param price
-   * @param quantity
+   * @param barcode Barcode of the new Good
+   * @param name Name of the new Good
+   * @param price Price of the new Good
+   * @param quantity Quantity of the new Good
    */
   public Good(Integer barcode, String name, Double price, Integer quantity) {
     this.barcode = barcode;
@@ -32,54 +30,37 @@ public class Good implements Comparable<Good>{
   }
 
   /**
-   * @return the barCode
+   * Gets the quantity of the stock of the good
+   * 
+   * @return The quantity of the stock of the good
    */
-  public Integer getBarcode() {
-    return this.barcode;
+  public int getQuantity() {
+    return quantity;
   }
 
   /**
-   * @return the name
+   * Sets the quantity of the stock of the good
+   * 
+   * @param quantity The new amount you want to set the quantity to
    */
-  public String getName() {
-    return this.name;
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
   }
-
-  /**
-   * @return the price
-   */
-  public Double getPrice() {
-    return this.price;
+  
+  @Override
+  public int compareTo(Good o) {
+    return this.barcode.compareTo(o.barcode);
   }
-
+  
   /**
-   * @return the quantity
-   */
-  public Integer getQuantity() {
-    return this.quantity;
-  }
-
-  /**
-   * Good details are printed
+   * Prints out the details of a Good object
    */
   public void printGood() {
-    System.out
-        .println("Name: " + this.name + "\nPrice: " + this.price + "\nQuantity: " + this.quantity);
-  }
-
-  /**
-   * @return String containing Good details
-   */
-  public String getValue() {
-    return (String) (getName() + " " + getPrice() + " " + getQuantity() + " ");
+    System.out.println("Barcode: " + this.barcode + " \nName: " + this.name
+        + "\nPrice: " + this.price + "\nQuantity in Stock: " + this.quantity);
   }
 
 
-  @Override
-  public int compareTo(Good item) {
-    Integer thisBarcode = this.barcode;
-    Integer goodBarcode = item.getBarcode();
-    return thisBarcode.compareTo(goodBarcode);
-  }
-
+  
+  
 }
