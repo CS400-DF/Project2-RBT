@@ -1,6 +1,6 @@
 # Project2-RBT
 
-RBT.java
+RedBlackTree.java
 Good.java
 InventoryApp.java
 a.txt
