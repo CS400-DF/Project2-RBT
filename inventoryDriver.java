@@ -211,7 +211,7 @@ public class inventoryDriver {
    * @param id User's ID number input as a int
    * @return True if user enters a valid barcode and false otherwise
    */
-  private static boolean checkIfValidID(int id) {
+  private static boolean checkIfValidID(Integer id) {
     int length = String.valueOf(id).length();
     if (id != (int)id)
     {
