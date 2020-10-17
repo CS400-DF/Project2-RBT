@@ -22,13 +22,13 @@ public class inventoryDriver {
   private final static String GOODBYE_MSG =
       "~~~~~~~~~~~ Thank you for using this application! ~~~~~~~~~~~";
   private final static String MENU = "\nCOMMAND MENU:\n"
-      + "[L] Loads a text file of Student objects into the Covid-19 Tracker App\n"
+      + "[L] Loads a text file of Goods objects into the Covid-19 Tracker App\n"
       + "[P] Puts a single new Good into the Inventory App.\n"
       + "[G] Gets a good's information from the application.\n"
       + "[S] Return the amount of goods in the application.\n"
       + "[K] Check if a good exists in the application\n"
-      + "[U] Check if a good exists in the application\n"
-      + "[D] Check if a good exists in the application\n"
+      + "[U] Increase the stock\n"
+      + "[D] Decrease the stock\n"
       + "[C] Clear all existing goods from the application.\n" + "[Q] Quit the application.\n"
       + "[H] Help (display this Menu).";
 
