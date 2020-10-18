@@ -9,6 +9,8 @@
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+// todo get method didnt return a statement
+// todo cant quit
 /**
  * This class drives the Inventory Application
  * 
@@ -89,6 +91,11 @@ public class inventoryDriver {
         System.out.println(MENU);
         break;
 
+      case "Q":
+        System.out.println("thank you for using our app!");
+        scanner.close();
+        break;
+
       default: // command doesn't exist
         System.out.println("WARNING. Invalid command. Please enter H and refer to the menu.");
     }
@@ -107,7 +114,7 @@ public class inventoryDriver {
 
     // initially print out the menu and command prompt
     System.out.println(MENU);
-    System.out.print(promptCommandLine);
+    System.out.println(promptCommandLine);
     
     // get users first input
     String line = scanner.nextLine().trim();  
@@ -115,13 +122,19 @@ public class inventoryDriver {
     
     while (Character.toUpperCase(c) != 'Q') {
       // parse and process the user command line
-      if (processUserCommandLine(line, ia, scanner) == false) {
-        break;
+//      if (processUserCommandLine(line, ia, scanner) == false) {
+//        break;
+//      }
+//      System.out.print(promptCommandLine);
+//      // read next user command line
+//      line = scanner.nextLine().trim();
+//      c = line.charAt(0);
+      while (processUserCommandLine(line,ia,scanner) != false)
+      {
+        System.out.print(promptCommandLine);
+        line = scanner.next();
+        c = line.charAt(0);
       }
-      System.out.print(promptCommandLine);
-      // read next user command line
-      line = scanner.nextLine().trim();
-      c = line.charAt(0);
     }
 
     // close the scanner
@@ -254,81 +267,68 @@ public class inventoryDriver {
    */
   private static boolean putHelper(InventoryApp ia, Scanner scanner) {
     boolean correctBarcodeInput = false;
-    
+    boolean correctQuantityInput = false;
+    boolean correctPriceInput = false;
     // keep polling user for valid barcode number
     while (correctBarcodeInput == false) {
       // initialize variables
       int barcode = 0;
-      String name = null;
+      String name = "";
       double price = 0.0;
       int quantity = 0;
-      
-      System.out.print("Enter 9 digit barcode: ");
-      barcode = scanner.nextInt();
 
+      System.out.println("Enter 9 digit barcode: ");
+      barcode = scanner.nextInt();
       // check for correct barcode input
       if (checkIfValidID(barcode) == false) {
         continue;
       }
-      
+
       // check if good has already been entered into the system
       if (ia.containsGood(barcode) == true) {
         System.out.println("A good with that barcode already exists.");
-      
-      // else add the good into the system
-      } else {
-        System.out.print("Enter good's name: ");
-        name = scanner.nextLine();
-        
-        // check if user entered 'q' to quit
-        if (checkIfQuit(name)) { 
-          return false;
-        }
-        
-        boolean correctQuantityInput = false;
-        
-        // keep polling user for a valid quantity input
-        while (correctQuantityInput == false) {
-          System.out.print(
-              "Enter good's quantity: ");
-          quantity = scanner.nextInt();
-
-          
-          // check for correct quantity input
-          if (quantity != (int)quantity)
-          {
-            System.out.println("Quantity invalid., only integers can be entered");
-            continue;
-          }
-          correctQuantityInput = true;
-        }
-        
-        boolean correctPriceInput = false;
-        
-        // keep polling user for a valid housingStatus input
-        while (correctPriceInput == false) {
-          System.out
-              .print("Enter a double for price: ");
-          price = scanner.nextDouble();
-
-          // check for correct price input
-          if (price != (double)price)
-          {
-            System.out.println("input must be a double value");
-            continue;
-          }
-          correctPriceInput = true;
-        }
-        
-        // add correctly formatted good to the application
-        ia.addItem(barcode, name, price, quantity);
-        System.out.println("New good successfully added.");
+        continue;
+        // else add the good into the system
       }
+
+      System.out.println("Enter good's name: ");
+      name = scanner.next();
+      // keep polling user for a valid quantity input
+      while (correctQuantityInput == false) {
+        System.out.println(
+                "Enter good's quantity: ");
+        quantity = scanner.nextInt();
+        // check for correct quantity input
+        if (quantity != (int) quantity) {
+          System.out.println("Quantity invalid., only integers can be entered");
+          continue;
+        }
+        correctQuantityInput = true;
+      }
+
+      // keep polling user for a valid housingStatus input
+      while (correctPriceInput == false) {
+        System.out.println("Enter a double for price: ");
+        price = scanner.nextDouble();
+        // check for correct price input
+        if (price != (double) price) {
+          System.out.println("input must be a double value");
+          continue;
+        }
+        correctPriceInput = true;
+      }
+      // add correctly formatted good to the application
+      ia.addItem(barcode, name, price, quantity);
+      System.out.println("New good successfully added.");
       correctBarcodeInput = true;
     }
-    
     return true;
   }
+
+
+    
+
+
 
   /**
    * Assists with the functionality of getting a Good Object
@@ -348,6 +348,7 @@ public class inventoryDriver {
 
       // check for correct ID input
       if (checkIfValidID(barcode) == false) {
+        System.out.println("barcode must be a 9 digits integer");
         continue;
       }
       
