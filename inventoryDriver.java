@@ -73,7 +73,7 @@ public class inventoryDriver {
 
       case "S": // return the amount of students in the application
         System.out.println("There are " + ia.getNumGoods()
-            + " students currently stored in this application.");
+            + " goods currently stored in this application.");
         break;
 
       case "K": // check if a Student exists in the application
@@ -84,7 +84,7 @@ public class inventoryDriver {
 
       case "C": // clear all Students from the application
         ia.clearAllGoods();
-        System.out.println("Cleared all students from this application.");
+        System.out.println("Cleared all goods from this application.");
         break;
 
       case "H": // display the menu
@@ -156,54 +156,66 @@ public class inventoryDriver {
   {
     boolean successOrNot = false;
     boolean successAmount = false;
-    int barcode = 0;
-    int amount = 0;
-    while (successOrNot==false)
-    {
-      System.out.println("enter barcode of the good you would like to increase");
-      barcode = scanner.nextInt();
-      if (ia.containsGood(barcode) != true) {
-        System.out.println("A good with this barcode does not exist in the system.");
-      }
-      if (checkIfValidID(barcode) == false) {
-        continue;
-      }
-      successOrNot = true;
-    }
-    while (successAmount==false)
-    {
-      System.out.println("enter amount of the good you would like to increase");
-      amount = scanner.nextInt();
-      successAmount = true;
-    }
-    ia.increaseStock(barcode,amount);
-  }
-  private static void lowerStockHelper(InventoryApp ia,Scanner scanner)
-  {
-    boolean successOrNot = false;
-    boolean successAmount = false;
-    int barcode = 0;
-    int amount = 0;
+    String barcode = "";
+    String amount = "";
     while (successOrNot==false)
     {
       System.out.println("enter barcode of the good you would like to decrease");
-      barcode = scanner.nextInt();
-      if (ia.containsGood(barcode) != true) {
-        System.out.println("A good with this barcode does not exist in the system.");
-      }
+      barcode = scanner.next();
       if (checkIfValidID(barcode) == false) {
         continue;
+      }
+      if (ia.containsGood(Integer.parseInt(barcode)) != true) {
+        System.out.println("A good with this barcode does not exist in the system.");
       }
       successOrNot = true;
     }
     while (successAmount==false)
     {
       System.out.println("enter amount of the good you would like to decrease");
-      amount = scanner.nextInt();
+      amount = scanner.next();//todo
+      if (!checkIfValidInt(amount))
+      {
+        continue;
+      }
       successAmount = true;
     }
-    ia.lowerStock(barcode,amount);
+    ia.increaseStock(Integer.parseInt(barcode),Integer.parseInt(amount));
   }
+  private static void lowerStockHelper(InventoryApp ia,Scanner scanner)
+  {
+    boolean successOrNot = false;
+    boolean successAmount = false;
+    String barcode = "";
+    String amount = "";
+    while (successOrNot==false)
+    {
+      System.out.println("enter barcode of the good you would like to decrease");
+      barcode = scanner.next();
+      if (checkIfValidID(barcode) == false) {
+        continue;
+      }
+      if (ia.containsGood(Integer.parseInt(barcode)) != true) {
+        System.out.println("A good with this barcode does not exist in the system.");
+      }
+      successOrNot = true;
+    }
+    while (successAmount==false)
+    {
+      System.out.println("enter amount of the good you would like to decrease");
+      amount = scanner.next();//todo
+      if (!checkIfValidInt(amount))
+      {
+        continue;
+      }
+      successAmount = true;
+    }
+    ia.lowerStock(Integer.parseInt(barcode),Integer.parseInt(amount));
+  }
+
+
+
+
   /**
    * Checks if the user wants to quit at any point
    *
@@ -214,7 +226,7 @@ public class inventoryDriver {
     if (input.trim().equalsIgnoreCase("q")) {
       return true;
     }
-    
+
     return false;
   }
 
@@ -224,9 +236,9 @@ public class inventoryDriver {
    * @param id User's ID number input as a int
    * @return True if user enters a valid barcode and false otherwise
    */
-  private static boolean checkIfValidID(Integer id) {
+  private static boolean checkIfValidID(String id) {
     int length = String.valueOf(id).length();
-    if (id != (int)id)
+    if (!checkIfValidInt(id))
     {
       System.out.println("Invalid ID format. Good's barcode must be a single 9 digit integer.");
       return false;
@@ -235,9 +247,81 @@ public class inventoryDriver {
       System.out.println("Invalid ID format. Good's barcode must be a single 9 digit number.");
       return false;
     }
-    
     return true;
   }
+
+  private static boolean checkIfValidDouble(String str)
+  {
+    boolean b = true;
+    try{
+      Double db = Double.parseDouble(str);
+    }
+    catch (NumberFormatException e)
+    {
+      b = false;
+    }
+    if (!b)
+    {
+      System.out.println("this is not a double value please re-enter a correct double value");
+    }
+    return b;
+  }
+
+  private static boolean checkIfValidInt(String str)
+  {
+    boolean b = true;
+    try{
+      int db = Integer.parseInt(str);
+    }
+    catch (NumberFormatException e)
+    {
+      b = false;
+    }
+    if (!b)
+    {
+      System.out.println("this is not a integer value please re-enter a correct int value");
+    }
+    return b;
+  }
+
+  private static boolean checkIfValidInt1(String str)
+  {
+    boolean b = true;
+    try{
+      int db = Integer.parseInt(str);
+    }
+    catch (NumberFormatException e)
+    {
+      b = false;
+    }
+    return b;
+  }
+
+  private static boolean checkIfValidDouble1(String str)
+  {
+    boolean b = true;
+    try{
+      Double db = Double.parseDouble(str);
+    }
+    catch (NumberFormatException e)
+    {
+      b = false;
+    }
+    return b;
+  }
+
+  private static boolean checkIfValidString(String str)
+  {
+    if (checkIfValidInt1(str) || checkIfValidDouble1(str))
+    {
+      System.out.println("name must be a string, please re-enter both barcode and name: ");
+      return false;
+    }
+    return true;
+  }
+
+
+
   private static boolean loadHelper(InventoryApp ia, Scanner scanner) {
     String fileName = null;
     System.out.print(
@@ -272,53 +356,65 @@ public class inventoryDriver {
     // keep polling user for valid barcode number
     while (correctBarcodeInput == false) {
       // initialize variables
-      int barcode = 0;
+      String barcode = "";
       String name = "";
-      double price = 0.0;
-      int quantity = 0;
+      String price = "";
+      String quantity = "";
 
       System.out.println("Enter 9 digit barcode: ");
-      barcode = scanner.nextInt();
+      barcode = scanner.next(); //todo
       // check for correct barcode input
       if (checkIfValidID(barcode) == false) {
         continue;
       }
 
       // check if good has already been entered into the system
-      if (ia.containsGood(barcode) == true) {
+      if (ia.containsGood(Integer.parseInt(barcode)) == true) {
         System.out.println("A good with that barcode already exists.");
         continue;
         // else add the good into the system
       }
 
       System.out.println("Enter good's name: ");
-      name = scanner.next();
+      name = scanner.next(); //TODO
+      if (!checkIfValidString(name))
+      {
+        continue;
+      }
       // keep polling user for a valid quantity input
       while (correctQuantityInput == false) {
         System.out.println(
                 "Enter good's quantity: ");
-        quantity = scanner.nextInt();
-        // check for correct quantity input
-        if (quantity != (int) quantity) {
-          System.out.println("Quantity invalid., only integers can be entered");
+        quantity = scanner.next(); //todo
+        if (!checkIfValidInt(quantity))
+        {
           continue;
         }
+        // check for correct quantity input
+//        if (quantity != (int) quantity) {
+//          System.out.println("Quantity invalid., only integers can be entered");
+//          continue;
+//        }
         correctQuantityInput = true;
       }
 
       // keep polling user for a valid housingStatus input
       while (correctPriceInput == false) {
         System.out.println("Enter a double for price: ");
-        price = scanner.nextDouble();
+        price = scanner.next(); //todo
         // check for correct price input
-        if (price != (double) price) {
-          System.out.println("input must be a double value");
+        if (!checkIfValidDouble(price))
+        {
           continue;
         }
+//        if (price !=  Double.parseDouble(price)) {
+//          System.out.println("input must be a double value");
+//          continue;
+//        }
         correctPriceInput = true;
       }
       // add correctly formatted good to the application
-      ia.addItem(barcode, name, price, quantity);
+      ia.addItem(Integer.parseInt(barcode), name, Double.parseDouble(price), Integer.parseInt(quantity));
       System.out.println("New good successfully added.");
       correctBarcodeInput = true;
     }
@@ -326,7 +422,6 @@ public class inventoryDriver {
   }
 
 
-    
 
 
 
@@ -339,15 +434,15 @@ public class inventoryDriver {
    */
   private static boolean getHelper(InventoryApp ia, Scanner scanner) {
     boolean correctBarcode = false;
-    int barcode = 0;
+    String barcode = "";
     
     // keep polling user for a valid ID number
-    while (correctBarcode == false) {
+    while (!correctBarcode) {
       System.out.print("Enter 9 digit barcode: ");
-      barcode = scanner.nextInt();
+      barcode = scanner.next();
 
       // check for correct ID input
-      if (checkIfValidID(barcode) == false) {
+      if (!checkIfValidID(barcode)) {
         System.out.println("barcode must be a 9 digits integer");
         continue;
       }
@@ -357,7 +452,7 @@ public class inventoryDriver {
     
     // try to get Student information
     try {
-      ia.getGood(barcode);
+      ia.getGood(Integer.parseInt(barcode)).printGood();
     } catch (NoSuchElementException e) {
       System.out.println("There is no existing good with that barcode.");
     }
@@ -374,22 +469,22 @@ public class inventoryDriver {
    */
   public static boolean containsKeyHelper(InventoryApp ia, Scanner scanner) {
     boolean correctBarcodeInput = false;
-    int barcode = 0;
+    String barcode = "";
     
     // keep polling user for a valid ID number
-    while (correctBarcodeInput == false) {
+    while (!correctBarcodeInput) {
       System.out.print("Enter 9 digit barcode: ");
-      barcode = scanner.nextInt();
+      barcode = scanner.next();
 
       // check for correct ID input
-      if (checkIfValidID(barcode) == false) {
+      if (!checkIfValidID(barcode)) {
         continue;
       }
       correctBarcodeInput = true;
     }
     
     // check if Student exists in the system
-    if (ia.containsGood(barcode) == true) {
+    if (ia.containsGood(Integer.parseInt(barcode))) {
       System.out.println("A good with this barcode exists in the system.");
     } else {
       System.out.println("A good with this barcode does not exist in the system.");
