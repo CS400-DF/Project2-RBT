@@ -99,7 +99,7 @@ public class inventoryDriver {
       default: // command doesn't exist
         System.out.println("WARNING. Invalid command. Please enter H and refer to the menu.");
     }
-    
+
     return true;
   }
 
@@ -122,21 +122,13 @@ public class inventoryDriver {
     
     while (Character.toUpperCase(c) != 'Q') {
       // parse and process the user command line
-//      if (processUserCommandLine(line, ia, scanner) == false) {
-//        break;
-//      }
-//      System.out.print(promptCommandLine);
-//      // read next user command line
-//      line = scanner.nextLine().trim();
-//      c = line.charAt(0);
-      while (processUserCommandLine(line,ia,scanner) != false)
+      if (processUserCommandLine(line,ia,scanner) != false)
       {
         System.out.print(promptCommandLine);
         line = scanner.next();
         c = line.charAt(0);
       }
     }
-
     // close the scanner
     scanner.close();
   }
@@ -160,7 +152,7 @@ public class inventoryDriver {
     String amount = "";
     while (successOrNot==false)
     {
-      System.out.println("enter barcode of the good you would like to decrease");
+      System.out.println("enter barcode of the good you would like to increase");
       barcode = scanner.next();
       if (checkIfValidID(barcode) == false) {
         continue;
@@ -172,7 +164,7 @@ public class inventoryDriver {
     }
     while (successAmount==false)
     {
-      System.out.println("enter amount of the good you would like to decrease");
+      System.out.println("enter amount of the good you would like to increase");
       amount = scanner.next();//todo
       if (!checkIfValidInt(amount))
       {
@@ -324,14 +316,14 @@ public class inventoryDriver {
 
   private static boolean loadHelper(InventoryApp ia, Scanner scanner) {
     String fileName = null;
-    System.out.print(
+    System.out.println(
             "Please enter the name of the text file of Goods you would like to load into the application in the form <FileName>.txt : ");
-    fileName = scanner.nextLine().trim();
+    fileName = scanner.next();
 
-    // check if user has entered 'q' to quit
-    if (checkIfQuit(fileName)) {
-      return false;
-    }
+//    // check if user has entered 'q' to quit
+//    if (checkIfQuit(fileName)) {
+//      return false;
+//    }
 
     // Try to load file of Students into the system
     if (!(ia.load(fileName))) {
