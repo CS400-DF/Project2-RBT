@@ -435,29 +435,58 @@ public class inventoryDriver {
   private static boolean getHelper(InventoryApp ia, Scanner scanner) {
     boolean correctBarcode = false;
     String barcode = "";
+
+
+    try {
+      while (!correctBarcode) {
+        System.out.print("Enter 9 digit barcode: ");
+        barcode = scanner.next();
+
+        // check for correct ID input
+        if (!checkIfValidID(barcode)) {
+          System.out.println("barcode must be a 9 digits integer");
+          continue;
+        }
+
+        correctBarcode = true;
+      }
+
+      // try to get Student information
+      try {
+        ia.getGood(Integer.parseInt(barcode)).printGood();
+      } catch (NoSuchElementException e) {
+        System.out.println("There is no existing good with that barcode.");
+      }
+      return true;
+    }
+    catch (NullPointerException e)
+    {
+      System.out.println("item does not exit please try again");
+    }
+    return true;
     
     // keep polling user for a valid ID number
-    while (!correctBarcode) {
-      System.out.print("Enter 9 digit barcode: ");
-      barcode = scanner.next();
-
-      // check for correct ID input
-      if (!checkIfValidID(barcode)) {
-        System.out.println("barcode must be a 9 digits integer");
-        continue;
-      }
-      
-      correctBarcode = true;
-    }
-    
-    // try to get Student information
-    try {
-      ia.getGood(Integer.parseInt(barcode)).printGood();
-    } catch (NoSuchElementException e) {
-      System.out.println("There is no existing good with that barcode.");
-    }
-    
-    return true;
+//    while (!correctBarcode) {
+//      System.out.print("Enter 9 digit barcode: ");
+//      barcode = scanner.next();
+//
+//      // check for correct ID input
+//      if (!checkIfValidID(barcode)) {
+//        System.out.println("barcode must be a 9 digits integer");
+//        continue;
+//      }
+//
+//      correctBarcode = true;
+//    }
+//
+//    // try to get Student information
+//    try {
+//      ia.getGood(Integer.parseInt(barcode)).printGood();
+//    } catch (NoSuchElementException e) {
+//      System.out.println("There is no existing good with that barcode.");
+//    }
+//
+//    return true;
   }
 
   /**
