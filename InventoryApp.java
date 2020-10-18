@@ -6,6 +6,7 @@ import java.util.Scanner;
  * This class represents an Inventory App for a store
  * 
  * @author Dana Schneck
+ * @author Zihan Wang
  */
 public class InventoryApp {
 
@@ -24,7 +25,6 @@ public class InventoryApp {
    * This method is responsible for parsing a text-file, each line is checked for
    * its validity. Valid lines are parsed and stored in the Red Black Tree.
    * 
-   * @author Zihan Wang
    * @param FileName
    * @return true or false depending on whether the file was parsed correctly
    */
@@ -78,7 +78,6 @@ public class InventoryApp {
   /**
    * A string array containing the details parsed from a single line is checked
    * 
-   * @author Zihan Wang
    * @param data
    * @return true/false if line is valid
    */
@@ -216,18 +215,21 @@ public class InventoryApp {
     if (goodToLower.getQuantity() == 0) {
       System.out.println("This item is out of stock and therefore " + quantityToLower
           + " amount of stock cannot be removed.");
+      return;
     }
     // If the good has excess stock than the amount the user wants to decrease by
     if (goodToLower.getQuantity() >= quantityToLower) {
       goodToLower.setQuantity(goodToLower.getQuantity() - quantityToLower);
       System.out.println("Removed " + quantityToLower + " stock of good with barcode " + barcode
           + ". There is now " + goodToLower.getQuantity() + " stock of this good remaining.");
+      return;
     }
     // If the good has less stock than the amount the user wants to decrease by
     if (goodToLower.getQuantity() < quantityToLower) {
       System.out.println("Couldn't remove " + quantityToLower + " stock so removed "
           + goodToLower.getQuantity() + " instead. This good is now out of stock.");
       goodToLower.setQuantity(0);
+      return;
     }
   }
 
@@ -245,6 +247,6 @@ public class InventoryApp {
     goodToIncrease.setQuantity(goodToIncrease.getQuantity() + quantityToIncrease);
     System.out
         .println("Increased stock of good with barcode " + barcode + " by " + quantityToIncrease
-            + ". The current stock of this good is now" + goodToIncrease.getQuantity());
+            + ". The current stock of this good is now " + goodToIncrease.getQuantity());
   }
 }
