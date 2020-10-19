@@ -1,3 +1,12 @@
+// --== CS400 File Header Information ==--
+// Name: Dana Schneck
+// Email: dschneck2@wisc.edu
+// Team: DF
+// Role: Backend Devloper
+// TA: Yelun Bao
+// Lecturer: Gary Dahl
+// Notes to Grader: N/A
+
 /**
  * This class represents a good object for the inventory app
  * 
@@ -59,8 +68,4 @@ public class Good implements Comparable<Good> {
     System.out.println("Barcode: " + this.barcode + " \nName: " + this.name
         + "\nPrice: " + this.price + "\nQuantity in Stock: " + this.quantity);
   }
-
-
-  
-  
 }
