@@ -1,25 +1,19 @@
-run:InventoryDriver.class
-	java CovidAppDriver
+run: compile
+        java inventoryDriver
 
-compile InventoryApp.class:
+compile: InventoryApp.class inventoryDriver.class
 
 test:TestInventoryApp.class 
-	java -jar junit5.jar --class-path . --scan-classpath --details tree
-		
+        java -jar junit5.jar --class-path . --scan-classpath --details tree
+                
 InventoryApp.class:
-	javac InventoryApp.java
+        javac InventoryApp.java
 
-InventoryDriver.class:InventoryApp.class
-	javac InventoryDriver.java
-
-JUnit5:
-	wget http://pages.cs.wisc.edu/~cs400/junit5.jar
-	
-TestInventoryApp.class:JUnit5 InventoryApp.class 
+inventoryDriver.class:
+        javac inventoryDriver.java
+        
+TestInventoryApp.class:InventoryApp.class 
         javac -cp .:junit5.jar TestInventoryApp.java
 
-
-
 clean:
-	$(RM) junit5.jar
-	$(RM) *.class
+        $(RM) *.class
