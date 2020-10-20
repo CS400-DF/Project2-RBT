@@ -56,6 +56,11 @@ public class Good implements Comparable<Good> {
     this.quantity = quantity;
   }
   
+  /**
+  * Compares two Goods with each other
+  *
+  * @return 0, a negative, or positive number based on compareTo method for ints
+  */
   @Override
   public int compareTo(Good o) {
     return this.barcode.compareTo(o.barcode);
