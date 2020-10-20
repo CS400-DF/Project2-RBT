@@ -71,6 +71,8 @@ public class Good implements Comparable<Good> {
 	 */
 	@Override
 	public String toString() {
+		this.info = "Barcode: " + this.barcode + ", Name: " + this.name + ", Price: " + this.price
+				+ ", Quantity in Stock: " + this.quantity+"\n";
 		//returns product information
 		return info;	
 	}
