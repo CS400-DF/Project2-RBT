@@ -8,8 +8,7 @@ public class Good implements Comparable<Good> {
 	private String name;
 	private Double price;
 	private Integer quantity;
-	public String info;
-
+	
 	/**
 	 * Default constructor
 	 */
@@ -30,8 +29,7 @@ public class Good implements Comparable<Good> {
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
-		this.info = "Barcode: " + this.barcode + ", Name: " + this.name + ", Price: " + this.price
-				+ ", Quantity in Stock: " + this.quantity+"\n";
+		
 	}
 
 	/**
@@ -71,9 +69,8 @@ public class Good implements Comparable<Good> {
 	 */
 	@Override
 	public String toString() {
-		this.info = "Barcode: " + this.barcode + ", Name: " + this.name + ", Price: " + this.price
-				+ ", Quantity in Stock: " + this.quantity+"\n";
 		//returns product information
-		return info;	
+		return "Barcode: " + this.barcode + ", Name: " + this.name + ", Price: " + this.price
+				+ ", Quantity in Stock: " + this.quantity+"\n";	
 	}
 }
