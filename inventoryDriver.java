@@ -145,34 +145,35 @@ public class inventoryDriver {
   /**increase the quantity of a good, print out menu if barcode can not be found*/
   private static void increaseStockHelper(InventoryApp ia,Scanner scanner)
   {
+    //creat all variables
     boolean successOrNot = false;
     boolean successAmount = false;
     String barcode = "";
     String amount = "";
     while (successOrNot==false)
     {
-      System.out.println("enter barcode of the good you would like to increase");
-      barcode = scanner.next();
+      System.out.println("enter barcode of the good you would like to increase"); //enter barcode
+      barcode = scanner.next(); //scan
       if (checkIfValidID(barcode) == false) {
         continue;
       }
       if (ia.containsGood(Integer.parseInt(barcode)) != true) {
-        System.out.println("A good with this barcode does not exist in the system.");
-        driver();
+        System.out.println("A good with this barcode does not exist in the system."); //check if barcode exists already
+        continue;
       }
       successOrNot = true;
     }
     while (successAmount==false)
     {
-      System.out.println("enter amount of the good you would like to increase");
+      System.out.println("enter amount of the good you would like to increase"); //ask user to input amount
       amount = scanner.next();//todo
-      if (!checkIfValidInt(amount))
+      if (!checkIfValidInt(amount)) //check if it is an integer
       {
         continue;
       }
       successAmount = true;
     }
-    ia.increaseStock(Integer.parseInt(barcode),Integer.parseInt(amount));
+    ia.increaseStock(Integer.parseInt(barcode),Integer.parseInt(amount)); //increase it
   }
 
   /**decrease the quantity of a good, print out menu if barcode can not be found*/
@@ -184,20 +185,20 @@ public class inventoryDriver {
     String amount = "";
     while (successOrNot==false)
     {
-      System.out.println("enter barcode of the good you would like to decrease");
+      System.out.println("enter barcode of the good you would like to decrease"); //same as increase but decrease input barcode item this time
       barcode = scanner.next();
       if (checkIfValidID(barcode) == false) {
         continue;
       }
       if (ia.containsGood(Integer.parseInt(barcode)) != true) {
-        System.out.println("A good with this barcode does not exist in the system.");
-        driver();
+        System.out.println("A good with this barcode does not exist in the system."); //same as increase but decrease input barcode item this time
+        continue;
       }
       successOrNot = true;
     }
     while (successAmount==false)
     {
-      System.out.println("enter amount of the good you would like to decrease");
+      System.out.println("enter amount of the good you would like to decrease"); //same as increase but decrease input barcode item this time
       amount = scanner.next();//todo
       if (!checkIfValidInt(amount))
       {
@@ -205,7 +206,7 @@ public class inventoryDriver {
       }
       successAmount = true;
     }
-    ia.lowerStock(Integer.parseInt(barcode),Integer.parseInt(amount));
+    ia.lowerStock(Integer.parseInt(barcode),Integer.parseInt(amount)); //same as increase but decrease input barcode item this time
   }
 
 
@@ -416,8 +417,6 @@ public class inventoryDriver {
   private static boolean getHelper(InventoryApp ia, Scanner scanner) {
     boolean correctBarcode = false;
     String barcode = "";
-
-
     try {
       while (!correctBarcode) {
         System.out.print("Enter 9 digit barcode: ");
