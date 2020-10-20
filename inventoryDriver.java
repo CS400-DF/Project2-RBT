@@ -2,7 +2,7 @@
 // Name: <Haoxuan Wei>
 // Email: <hwei72@wisc.edu>
 // Team: <DF>
-// Role: <test engineer>
+// Role: <Front End>
 // TA: <Yelun>
 // Lecturer: <Gary Dahl>
 // Notes to Grader: <optional extra notes>
