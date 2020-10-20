@@ -43,7 +43,7 @@ public class inventoryDriver {
       Scanner scanner) {
     String[] input = command.trim().split(" ");
     switch (input[0].toUpperCase()) {
-      case "L": // load a Student text file into the application
+      case "L": // load a Good text file into the application
         if (loadHelper(ia, scanner) == false) {
           return false;
         }
@@ -63,24 +63,24 @@ public class inventoryDriver {
         } ;
         break;
 
-      case "G": // get a Student's information if they are in the application
+      case "G": // get a good's information if they are in the application
         if (getHelper(ia, scanner) == false) {
           return false;
         }
         break;
 
-      case "S": // return the amount of students in the application
+      case "S": // return the amount of items in the application
         System.out.println("There are " + ia.getNumGoods()
             + " goods currently stored in this application.");
         break;
 
-      case "K": // check if a Student exists in the application
+      case "K": // check if a good exists in the application
         if (containsKeyHelper(ia, scanner) == false) {
           return false;
         }
         break;
 
-      case "C": // clear all Students from the application
+      case "C": // clear all goods from the application
         ia.clearAllGoods();
         System.out.println("Cleared all goods from this application.");
         break;
