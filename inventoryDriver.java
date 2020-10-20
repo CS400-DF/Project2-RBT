@@ -145,7 +145,7 @@ public class inventoryDriver {
   /**increase the quantity of a good, print out menu if barcode can not be found*/
   private static void increaseStockHelper(InventoryApp ia,Scanner scanner)
   {
-    //creat all variables
+    //create all variables
     boolean successOrNot = false;
     boolean successAmount = false;
     String barcode = "";
@@ -159,12 +159,16 @@ public class inventoryDriver {
       }
       if (ia.containsGood(Integer.parseInt(barcode)) != true) {
         System.out.println("A good with this barcode does not exist in the system."); //check if barcode exists already
-        continue;
+        break;
       }
       successOrNot = true;
     }
     while (successAmount==false)
     {
+      if (!successOrNot) //if good doesnt exist inside the system it will jump out of this switch case and let user do others
+      {
+        break;
+      }
       System.out.println("enter amount of the good you would like to increase"); //ask user to input amount
       amount = scanner.next();//todo
       if (!checkIfValidInt(amount)) //check if it is an integer
@@ -173,7 +177,10 @@ public class inventoryDriver {
       }
       successAmount = true;
     }
-    ia.increaseStock(Integer.parseInt(barcode),Integer.parseInt(amount)); //increase it
+    if (successOrNot) //if good doesnt exist inside the system it will jump out of this switch case and let user do others, otherwise it will add the item
+    {
+      ia.increaseStock(Integer.parseInt(barcode),Integer.parseInt(amount)); //increase it
+    }
   }
 
   /**decrease the quantity of a good, print out menu if barcode can not be found*/
@@ -192,12 +199,16 @@ public class inventoryDriver {
       }
       if (ia.containsGood(Integer.parseInt(barcode)) != true) {
         System.out.println("A good with this barcode does not exist in the system."); //same as increase but decrease input barcode item this time
-        continue;
+        break;
       }
       successOrNot = true;
     }
     while (successAmount==false)
     {
+      if (!successOrNot) //if good doesnt exist inside the system it will jump out of this switch case and let user do others
+      {
+        break;
+      }
       System.out.println("enter amount of the good you would like to decrease"); //same as increase but decrease input barcode item this time
       amount = scanner.next();//todo
       if (!checkIfValidInt(amount))
@@ -206,7 +217,10 @@ public class inventoryDriver {
       }
       successAmount = true;
     }
-    ia.lowerStock(Integer.parseInt(barcode),Integer.parseInt(amount)); //same as increase but decrease input barcode item this time
+    if (successOrNot) //if good doesnt exist inside the system it will jump out of this switch case and let user do others, otherwise it will add the item
+    {
+      ia.lowerStock(Integer.parseInt(barcode),Integer.parseInt(amount)); //same as increase but decrease input barcode item this time
+    }
   }
 
 
