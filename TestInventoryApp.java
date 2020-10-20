@@ -1,144 +1,313 @@
-// --== CS400 File Header Information ==--
-// Name: Nicole Gathman
-// Email: ngathman@wisc.edu
-// Team: DF
-// TA: Yelun
-// Lecturer: Florian
-// Notes to Grader: nothing
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test; // JUnit 5
 import static org.junit.Assert.*;
-	
+
+/**
+ * Class which tests the functionality of InventoryApp
+ * 
+ * @author Abhay Prakash Punjabi
+ *
+ */
 public class TestInventoryApp {
 
 	/**
-	 * Test checks the correctness of load()
-	 * After loading with file a.txt, 20 items should be in the database 
+	 * Method responsible for testing the load function of the app, given a text
+	 * file Parses information from the txt file while validating each line and adds
+	 * to a RBT
 	 */
 	@Test
-	public void testLoad(){
-	    InventoryApp app = new InventoryApp();
-	    app.load("a.txt");
-	    int numGoods = app.getNumGoods();
-	    if(numGoods != 20) {
-	      fail("Number of goods after load is incorrect");
-	    }
-	}
-	
-	/**
-	 * Test checks the correctness of lowerStock
-	 * Tests case where item is already out of stock
-	 * Tests the case where the user asks to remove more than what is in stock
-	 */
-	@Test 
-	public void testLowerStock() {
-	    InventoryApp app = new InventoryApp();
-	    boolean loaded = true;
-	    loaded = app.load("a.txt");
+	public void testLoadApp() {
 
-	    int initialQuantity = app.getGood(576876774).getQuantity();
-	    app.lowerStock(576876774,10);
-	    int finalQuantity = app.getGood(576876774).getQuantity();
-	    if(initialQuantity == finalQuantity) {
-	        fail("The quantity of the good did not change");
-	    }   	   
-	    else if(!loaded) {
-	    	fail("load method failed");
-	    }
-        initialQuantity = app.getGood(346765689).getQuantity();
-        app.lowerStock(346765689,34);
-        finalQuantity = app.getGood(346765689).getQuantity(); 
-	    if(initialQuantity == finalQuantity) {
-	        fail("The quantity of the good did not change");
-	    } 
-        initialQuantity = app.getGood(576876774).getQuantity();
-        app.lowerStock(576876774,10);
-        finalQuantity = app.getGood(576876774).getQuantity();
-        if(initialQuantity == finalQuantity) {
-            fail("The quantity of the good did not change");
-        }
-	}
-	
-	/**
-	 * Test checks if inventory contains an item after the item has been added
-	 * Also checks the correctness of containsItem()
-	 */
-	@Test
-	public void testAddItem() {
-	    InventoryApp app = new InventoryApp();
-	    boolean containsItem = true;
-        app.addItem(303030300, "1", 9.50,100);
-        app.addItem(303030301, "2", 9.51,100);
-        app.addItem(303030302, "3", 9.52,100);
-        app.addItem(303030303, "4", 9.53,100);
-        app.addItem(303030304, "5", 9.54,100);
-        app.addItem(303030305, "6", 9.55,100);
-        app.addItem(303030306, "7", 9.56,100);
-        app.addItem(303030307, "8", 9.57,100);
-        app.addItem(303030308, "9", 9.58,100);
-        app.addItem(303030309, "10", 9.59,100);
-        app.addItem(303030310, "11", 9.60,100);
-        app.addItem(303030311, "12", 9.61,100);
-        for(int x = 0;x<app.getNumGoods();x++) {
-        	int barcode = 303030300 + x;
-            if(app.containsGood(barcode) == false) {
-                containsItem = false;
-            }
-        }  
-        if(!containsItem) {
-            fail("method containsGood() returned false when it should have returned true");
-        }
+		InventoryApp testLoadApp = new InventoryApp();
+		// loads a new file
+		testLoadApp.load("a.txt");
+		// expected output of the RBT
+		String entries = "[Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 211345679, Name: Black Pepper, Price: 1.49, Quantity in Stock: 25\n"
+				+ ", Barcode: 898789809, Name: Kind Bar, Price: 1.2, Quantity in Stock: 20\n"
+				+ ", Barcode: 134798543, Name: Ketchup, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 346765689, Name: Greek Yogurt, Price: 1.59, Quantity in Stock: 25\n"
+				+ ", Barcode: 780679543, Name: Kiwi, Price: 0.49, Quantity in Stock: 200\n"
+				+ ", Barcode: 907539754, Name: Peach, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 166795467, Name: Vegetable Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 233345678, Name: Pear, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 367656768, Name: Paper Towel, Price: 2.49, Quantity in Stock: 50\n"
+				+ ", Barcode: 678998768, Name: Battery, Price: 4.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 887654567, Name: Pumpkin, Price: 9.99, Quantity in Stock: 30\n"
+				+ ", Barcode: 900089877, Name: Salt, Price: 2.0, Quantity in Stock: 25\n"
+				+ ", Barcode: 983458721, Name: Prune, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 119876542, Name: Corn Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 156034787, Name: Baking Soda, Price: 3.1, Quantity in Stock: 20\n"
+				+ ", Barcode: 458976534, Name: Soup, Price: 1.29, Quantity in Stock: 20\n"
+				+ ", Barcode: 776542980, Name: Burger, Price: 3.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 987322345, Name: Salmon, Price: 6.49, Quantity in Stock: 20\n" + "]";
+		// checking if the RBT created and expected output match
+		if (!testLoadApp.tree.toString().equals(entries)) {
+			fail("File has not been loaded correctly");
+		}
+		// correct number of items in the tree
+		if (testLoadApp.getNumGoods() != 20) {
+			fail("The RBT does not contain the correct amount of items");
+		}
 	}
 
 	/**
-	 * Test checks if the quantity of a good will increase after calling increaseStock()
-	 * Fails if the quantity of the good stays constant after calling increaseStock()
+	 * Tests the addItem() and getItem() methods of InventoryApp after loading in a
+	 * file and adding single entries into the inventory This method also verifies
+	 * if the parsed information and the added Good objects are stored correctly in
+	 * the RBT and their content matches their expected output
 	 */
-	@Test 
-	public void testIncreaseStock() {
-	    InventoryApp app = new InventoryApp();
-	    boolean loaded = true;
-	    loaded = app.load("a.txt");
-	    int initialQuantity = app.getGood(576876774).getQuantity();
-	    app.increaseStock(576876774,10);
-	    int finalQuantity = app.getGood(576876774).getQuantity();
-	    if(initialQuantity == finalQuantity) {
-	        fail("The quantity of the good did not change");
-	    } 
-	    else if(!loaded) {
-	    	fail("load method failed");
-	    }
-        initialQuantity = app.getGood(346765689).getQuantity();
-        app.increaseStock(346765689,34);
-        finalQuantity = app.getGood(346765689).getQuantity(); 
-	    if(initialQuantity == finalQuantity) {
-	        fail("The quantity of the good did not change");
-	    } 
-        initialQuantity = app.getGood(900089877).getQuantity();
-        app.lowerStock(900089877,10);
-        finalQuantity = app.getGood(900089877).getQuantity();
-        if(initialQuantity == finalQuantity) {
-            fail("The quantity of the good did not change");
-        }	
+	@Test
+	public void testPutAndGet() {
+		InventoryApp testPutandGetApp = new InventoryApp();
+		//loads file
+		testPutandGetApp.load("a.txt");
+		//expected ouput
+		String entries = "[Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 211345679, Name: Black Pepper, Price: 1.49, Quantity in Stock: 25\n"
+				+ ", Barcode: 898789809, Name: Kind Bar, Price: 1.2, Quantity in Stock: 20\n"
+				+ ", Barcode: 134798543, Name: Ketchup, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 346765689, Name: Greek Yogurt, Price: 1.59, Quantity in Stock: 25\n"
+				+ ", Barcode: 780679543, Name: Kiwi, Price: 0.49, Quantity in Stock: 200\n"
+				+ ", Barcode: 907539754, Name: Peach, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 166795467, Name: Vegetable Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 233345678, Name: Pear, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 367656768, Name: Paper Towel, Price: 2.49, Quantity in Stock: 50\n"
+				+ ", Barcode: 678998768, Name: Battery, Price: 4.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 887654567, Name: Pumpkin, Price: 9.99, Quantity in Stock: 30\n"
+				+ ", Barcode: 900089877, Name: Salt, Price: 2.0, Quantity in Stock: 25\n"
+				+ ", Barcode: 983458721, Name: Prune, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 119876542, Name: Corn Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 156034787, Name: Baking Soda, Price: 3.1, Quantity in Stock: 20\n"
+				+ ", Barcode: 458976534, Name: Soup, Price: 1.29, Quantity in Stock: 20\n"
+				+ ", Barcode: 776542980, Name: Burger, Price: 3.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 987322345, Name: Salmon, Price: 6.49, Quantity in Stock: 20\n" + "]";
+		//expected output after adding a Good
+		String afterAdd = "[Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 211345679, Name: Black Pepper, Price: 1.49, Quantity in Stock: 25\n"
+				+ ", Barcode: 898789809, Name: Kind Bar, Price: 1.2, Quantity in Stock: 20\n"
+				+ ", Barcode: 134798543, Name: Ketchup, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 346765689, Name: Greek Yogurt, Price: 1.59, Quantity in Stock: 25\n"
+				+ ", Barcode: 780679543, Name: Kiwi, Price: 0.49, Quantity in Stock: 200\n"
+				+ ", Barcode: 907539754, Name: Peach, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 119876542, Name: Corn Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 166795467, Name: Vegetable Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 233345678, Name: Pear, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 367656768, Name: Paper Towel, Price: 2.49, Quantity in Stock: 50\n"
+				+ ", Barcode: 678998768, Name: Battery, Price: 4.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 887654567, Name: Pumpkin, Price: 9.99, Quantity in Stock: 30\n"
+				+ ", Barcode: 900089877, Name: Salt, Price: 2.0, Quantity in Stock: 25\n"
+				+ ", Barcode: 983458721, Name: Prune, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 123456789, Name: KitKat, Price: 2.0, Quantity in Stock: 100\n"
+				+ ", Barcode: 156034787, Name: Baking Soda, Price: 3.1, Quantity in Stock: 20\n"
+				+ ", Barcode: 458976534, Name: Soup, Price: 1.29, Quantity in Stock: 20\n"
+				+ ", Barcode: 776542980, Name: Burger, Price: 3.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 987322345, Name: Salmon, Price: 6.49, Quantity in Stock: 20\n" + "]";
+		//checking if the original tree and expected output match
+		if (!testPutandGetApp.tree.toString().equals(entries)) {
+			fail("File has not been loaded correctly");
+		}
+		//adds an item to the tree
+		testPutandGetApp.addItem(123456789, "KitKat", 2, 100);
+		//checks if the tree is updated successfully
+		if (!testPutandGetApp.tree.toString().equals(afterAdd)) {
+			fail("Item " + "123456789, KitKat, 2, 100" + " hasn't been added correctly");
+		}
+		//checks if the size is updated
+		if (testPutandGetApp.getNumGoods() != 21) {
+			fail("The RBT does not contain the correct amount of items");
+		}
+		//adds another item
+		testPutandGetApp.addItem(111111111, "ABC", 222, 1001);
+		afterAdd = "[Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 211345679, Name: Black Pepper, Price: 1.49, Quantity in Stock: 25\n"
+				+ ", Barcode: 898789809, Name: Kind Bar, Price: 1.2, Quantity in Stock: 20\n"
+				+ ", Barcode: 134798543, Name: Ketchup, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 346765689, Name: Greek Yogurt, Price: 1.59, Quantity in Stock: 25\n"
+				+ ", Barcode: 780679543, Name: Kiwi, Price: 0.49, Quantity in Stock: 200\n"
+				+ ", Barcode: 907539754, Name: Peach, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 119876542, Name: Corn Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 166795467, Name: Vegetable Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 233345678, Name: Pear, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 367656768, Name: Paper Towel, Price: 2.49, Quantity in Stock: 50\n"
+				+ ", Barcode: 678998768, Name: Battery, Price: 4.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 887654567, Name: Pumpkin, Price: 9.99, Quantity in Stock: 30\n"
+				+ ", Barcode: 900089877, Name: Salt, Price: 2.0, Quantity in Stock: 25\n"
+				+ ", Barcode: 983458721, Name: Prune, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 123456789, Name: KitKat, Price: 2.0, Quantity in Stock: 100\n"
+				+ ", Barcode: 156034787, Name: Baking Soda, Price: 3.1, Quantity in Stock: 20\n"
+				+ ", Barcode: 458976534, Name: Soup, Price: 1.29, Quantity in Stock: 20\n"
+				+ ", Barcode: 776542980, Name: Burger, Price: 3.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 987322345, Name: Salmon, Price: 6.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 111111111, Name: ABC, Price: 222.0, Quantity in Stock: 1001\n" + "]";
+		//checks if the tree is updated successfully
+		if (!testPutandGetApp.tree.toString().equals(afterAdd)) {
+			fail("Item " + "111111111, ABC, 222, 1001" + " hasn't been added correctly");
+		}
+		//check if size is updated
+		if (testPutandGetApp.getNumGoods() != 22) {
+			fail("The RBT does not contain the correct amount of items after the addition of the 2nd item");
+		}
+		//another item is added
+		testPutandGetApp.addItem(211345674, "Chips", 22, 1);
+		afterAdd = "[Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 211345679, Name: Black Pepper, Price: 1.49, Quantity in Stock: 25\n"
+				+ ", Barcode: 898789809, Name: Kind Bar, Price: 1.2, Quantity in Stock: 20\n"
+				+ ", Barcode: 134798543, Name: Ketchup, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 346765689, Name: Greek Yogurt, Price: 1.59, Quantity in Stock: 25\n"
+				+ ", Barcode: 780679543, Name: Kiwi, Price: 0.49, Quantity in Stock: 200\n"
+				+ ", Barcode: 907539754, Name: Peach, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 119876542, Name: Corn Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 166795467, Name: Vegetable Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 233345678, Name: Pear, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 367656768, Name: Paper Towel, Price: 2.49, Quantity in Stock: 50\n"
+				+ ", Barcode: 678998768, Name: Battery, Price: 4.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 887654567, Name: Pumpkin, Price: 9.99, Quantity in Stock: 30\n"
+				+ ", Barcode: 900089877, Name: Salt, Price: 2.0, Quantity in Stock: 25\n"
+				+ ", Barcode: 983458721, Name: Prune, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 123456789, Name: KitKat, Price: 2.0, Quantity in Stock: 100\n"
+				+ ", Barcode: 156034787, Name: Baking Soda, Price: 3.1, Quantity in Stock: 20\n"
+				+ ", Barcode: 211345674, Name: Chips, Price: 22.0, Quantity in Stock: 1\n"
+				+ ", Barcode: 458976534, Name: Soup, Price: 1.29, Quantity in Stock: 20\n"
+				+ ", Barcode: 776542980, Name: Burger, Price: 3.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 987322345, Name: Salmon, Price: 6.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 111111111, Name: ABC, Price: 222.0, Quantity in Stock: 1001\n" + "]";
+		//tree matches expected output and if size is updated correctly
+		if (!testPutandGetApp.tree.toString().equals(afterAdd)) {
+			fail("Item " + "211345674, Chips, 22, 1" + " hasn't been added correctly");
+		}
+		if (testPutandGetApp.getNumGoods() != 23) {
+			fail("The RBT does not contain the correct amount of items after the addition of the 3rd item");
+		}
+		testPutandGetApp.addItem(576872774, "Bananas", 1, 100);
+		afterAdd = "[Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 211345679, Name: Black Pepper, Price: 1.49, Quantity in Stock: 25\n"
+				+ ", Barcode: 898789809, Name: Kind Bar, Price: 1.2, Quantity in Stock: 20\n"
+				+ ", Barcode: 134798543, Name: Ketchup, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 346765689, Name: Greek Yogurt, Price: 1.59, Quantity in Stock: 25\n"
+				+ ", Barcode: 780679543, Name: Kiwi, Price: 0.49, Quantity in Stock: 200\n"
+				+ ", Barcode: 907539754, Name: Peach, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 119876542, Name: Corn Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 166795467, Name: Vegetable Oil, Price: 2.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 233345678, Name: Pear, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 458976534, Name: Soup, Price: 1.29, Quantity in Stock: 20\n"
+				+ ", Barcode: 678998768, Name: Battery, Price: 4.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 887654567, Name: Pumpkin, Price: 9.99, Quantity in Stock: 30\n"
+				+ ", Barcode: 900089877, Name: Salt, Price: 2.0, Quantity in Stock: 25\n"
+				+ ", Barcode: 983458721, Name: Prune, Price: 0.49, Quantity in Stock: 100\n"
+				+ ", Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 123456789, Name: KitKat, Price: 2.0, Quantity in Stock: 100\n"
+				+ ", Barcode: 156034787, Name: Baking Soda, Price: 3.1, Quantity in Stock: 20\n"
+				+ ", Barcode: 211345674, Name: Chips, Price: 22.0, Quantity in Stock: 1\n"
+				+ ", Barcode: 367656768, Name: Paper Towel, Price: 2.49, Quantity in Stock: 50\n"
+				+ ", Barcode: 576872774, Name: Bananas, Price: 1.0, Quantity in Stock: 100\n"
+				+ ", Barcode: 776542980, Name: Burger, Price: 3.49, Quantity in Stock: 10\n"
+				+ ", Barcode: 987322345, Name: Salmon, Price: 6.49, Quantity in Stock: 20\n"
+				+ ", Barcode: 111111111, Name: ABC, Price: 222.0, Quantity in Stock: 1001\n" + "]";
+		//checks the tree after the addition of the last item
+		if (!testPutandGetApp.tree.toString().equals(afterAdd)) {
+			fail("Item " + "576872774, Bananas, 1, 100" + " hasn't been added correctly");
+		}
+		if (testPutandGetApp.getNumGoods() != 24) {
+			fail("The RBT does not contain the correct amount of items after the addition of the 4th item");
+		}
+		//gets information of the good from the tree
+		if (!testPutandGetApp.getGood(111111111).toString()
+				.equals("Barcode: 111111111, Name: ABC, Price: 222.0, Quantity in Stock: 1001\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
+		//gets info of the Good added from the parsed file
+		if (!testPutandGetApp.getGood(987322345).toString()
+				.equals("Barcode: 987322345, Name: Salmon, Price: 6.49, Quantity in Stock: 20\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
+		//gets info of the Good added from the parsed file
+		if (!testPutandGetApp.getGood(900089877).toString()
+				.equals("Barcode: 900089877, Name: Salt, Price: 2.0, Quantity in Stock: 25\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
+		//checks if an item absent from the tree exists
+		if ((testPutandGetApp.getGood(222222222) != null)) {
+			fail("An item which should be absent from the inventory exists");
+		}
+		//size remains the same
+		if (testPutandGetApp.getNumGoods() != 24) {
+			fail("The RBT does not contain the correct amount of items after the addition of the 4th item");
+		}
 	}
 
 	/**
-	 * Test checks the correctness of the method clearAllGoods()
-	 * The method should clear all the items in the structure.
-	 * Test will fail if the number of items after calling the method is not zero and initial is not zero
+	 * Tests whether the quantity of a Good object increases accordingly
 	 */
 	@Test
-	public void testClearAllGoods() {
-	    InventoryApp app = new InventoryApp();
-	    boolean loaded = true;
-	    loaded = app.load("a.txt");
-	    int initialNumGoods = app.getNumGoods();
-	    app.clearAllGoods();
-	    int finalNumGoods = app.getNumGoods();
-	    if(initialNumGoods != 0 && initialNumGoods == finalNumGoods) {
-	        fail("the number of items in the data structure did not change after calling clearNumGoods()");
-	    }
-	    else if(!loaded) {
-	    	fail("load method failed");
-	    }
+	public void testIncrease() {
+		InventoryApp testIncreaseApp = new InventoryApp();
+		testIncreaseApp.load("a.txt");
+		//increases stock of an item
+		testIncreaseApp.increaseStock(576876774, 100);
+		//verifies whether increase was successful
+		if (testIncreaseApp.getGood(576876774).getQuantity() != 200) {
+			fail("Quantity hasn't been increased correctly");
+		}
+		//also checks if the item description updates according to the new quantity
+		if (!testIncreaseApp.getGood(576876774).toString()
+				.equals("Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 200\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
+		
+		testIncreaseApp.increaseStock(116789876, 200);
+		//verifies whether increase was successful
+		if (testIncreaseApp.getGood(116789876).getQuantity() != 210) {
+			fail("Quantity hasn't been increased correctly");
+		}
+		//also checks if the item description updates according to the new quantity
+		if (!testIncreaseApp.getGood(116789876).toString()
+				.equals("Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 210\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
 	}
+
+	/**
+	 * Tests whether the quantity of a Good object decreases accordingly
+	 */
+	@Test
+	public void testDecrease() {
+		InventoryApp testDecreaseApp = new InventoryApp();
+		//loads file
+		testDecreaseApp.load("a.txt");
+		//decreases stock of an item by decreasing it by an amount equal to its quantity
+		testDecreaseApp.lowerStock(576876774, 100);
+		//quantity should now be set to 0 
+		if (testDecreaseApp.getGood(576876774).getQuantity() != 0) {
+			fail("Quantity hasn't been increased correctly");
+		}
+		//checks if the item description decreases correctly
+		if (!testDecreaseApp.getGood(576876774).toString()
+				.equals("Barcode: 576876774, Name: Apple, Price: 0.49, Quantity in Stock: 0\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
+		//decreases stock of an item by decreasing it by an amount greater than its quantity
+		testDecreaseApp.lowerStock(116789876, 200);
+		//quantity has been updated
+		if (testDecreaseApp.getGood(116789876).getQuantity() != 0) {
+			fail("Quantity hasn't been decreased correctly");
+		}
+		//checks if the description changes
+		if (!testDecreaseApp.getGood(116789876).toString()
+				.equals("Barcode: 116789876, Name: Body Lotion, Price: 10.49, Quantity in Stock: 0\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
+		//decreases stock of an item by decreasing it by an amount lesser than its quantity
+		testDecreaseApp.lowerStock(776542980, 5);
+		if (!testDecreaseApp.getGood(776542980).toString()
+				.equals("Barcode: 776542980, Name: Burger, Price: 3.49, Quantity in Stock: 5\n")) {
+			fail("The item is stored incorrectly, and its details are incorrect");
+		}
+	}
+
 }
